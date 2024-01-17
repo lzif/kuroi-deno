@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <%- include("partials/head", { metaInfo: metaInfo }) %>
+  <body class="bg-gray-950 text-gray-50">
+    <%- include("partials/navbar") %>
+    <div class="card">
+      <h2><%= episode.info.title %></h2>
+      <p>
+        Previous URL:
+        <%= episode.info.prevUrl %>
+      </p>
+      <p>
+        Next URL:
+        <%= episode.info.nextUrl %>
+      </p>
+
+      <h3>Streaming URLs:</h3>
+      <ul>
+        <% episode.streamUrl.forEach((stream, index) => { %>
+        <li>
+          Resolution:
+          <%= stream.res %>, URL:
+          <%= stream.url %>
+        </li>
+        <% }); %>
+      </ul>
+
+      <h3>Download URLs:</h3>
+      <ul>
+        <% episode.downloadUrl.forEach((download, index) => { %>
+        <li>
+          <h4><%= download.provider %></h4>
+          <ul>
+            <% download.urls.forEach((url, subIndex) => { %>
+            <li>
+              <a href="<%= url.url %>"><%= url.res %></a>
+            </li>
+            <% }); %>
+          </ul>
+        </li>
+        <% }); %>
+      </ul>
+    </div>
+    <div class="htmx-indicator">Loading ...</div>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <%- include("partials/head", { metaInfo: metaInfo }) %>
+  <body>
+    <%- include("partials/navbar") %>
+    <div class="bg-blue-500 text-white p-4">
+      <h1 class="text-2xl font-bold mb-2"><%= title %></h1>
+      <p class="mb-4"><%= info %></p>
+    </div>
+
+    <% scheduleDay.forEach(day => { %>
+    <div class="mt-4">
+      <h2 class="text-xl font-bold mb-2"><%= day.day %></h2>
+      <ul>
+        <% day.list.forEach(item => { %>
+        <li class="mb-2">
+          <a href="<%= item.animeUrl %>" class="text-blue-500 hover:underline"
+            ><%= item.anime %></a
+          >
+          -
+          <%= item.schedule %>
+        </li>
+        <% }); %>
+      </ul>
+    </div>
+    <% }); %>
+  </body>
+</html>
