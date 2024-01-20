@@ -1,31 +1,38 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
+import * as cheerio from "cheerio";
 
-async function getReleaseSchedule() {
-  const res = await axios.get("https://anoboy.pro/jadwal-rilis/");
-  const html = res.data;
+type ListAnime = {
+  anime:string;animeUrl:string;schedule:string
+}
+type ScheduleDay = {
+  day:string;
+  list:ListAnime[]
+}
+
+export default async function getReleaseSchedule() {
+  const res = await fetch("https://anoboy.pro/jadwal-rilis/");
+  const html = await res.text();
   const $ = cheerio.load(html);
 
   const title = $("div.line-card > h2").text();
   let info;
-  const scheduleDay = [];
+  const scheduleDay:ScheduleDay[] = [];
 
   $("div.post-content > div.infolist").each((i, el) => {
     if (i == 0) {
       info = $(el).text();
     } else {
-      const scheduleItem = {
+      const scheduleItem:ScheduleDay = {
         day: $(el).find("h3").text().trim(),
         list: [],
       };
       $(el)
         .find("ul > li")
-        .each((i, el) => {
+        .each((_, el) => {
           const anime = $(el).find("a").text();
-          const animeUrl = $(el).find("a").attr("href");
+          const animeUrl = $(el).find("a").attr("href")!;
           const schedule = $(el)
             .contents()
-            .filter((i, el) => el.nodeType === 3)
+            .filter((_, el) => el.nodeType === 3)
             .text()
             .trim();
           scheduleItem.list.push({ anime, animeUrl, schedule });
@@ -39,7 +46,8 @@ async function getReleaseSchedule() {
     info,
     scheduleDay,
   };
+  console.log(releaseSchedule)
   return releaseSchedule;
 }
 
-module.exports = getReleaseSchedule
+getReleaseSchedule()

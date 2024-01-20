@@ -1,12 +1,17 @@
 {
   "imports": {
-    "oak": "https://deno.land/x/oak@v12.6.1/mod.ts",
-    "cors": "https://deno.land/x/cors@v1.2.2/mod.ts",
-    "view_engine": "https://deno.land/x/view_engine@v10.6.0/mod.ts",
-    "colors": "https://deno.land/std@0.211.0/fmt/colors.ts"
+    "hono": "https://deno.land/x/hono@v3.12.5/mod.ts",
+    "hono/middleware": "https://deno.land/x/hono@v3.12.5/middleware.ts",
+    "hono/jsx/jsx-runtime": "https://deno.land/x/hono@v3.8.0/jsx/jsx-runtime.ts",
+    "cheerio": "https://esm.sh/cheerio@1.0.0-rc.12"
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx"
   },
   "tasks": {
-    "dev": "deno run --allow-read --allow-write --allow-net --allow-env --watch main.ts",
+    "dev": "deno task dev:server & deno task dev:css",
+    "dev:server": "deno run --allow-read --allow-write --allow-net --allow-env --watch main.tsx",
     "dev:css": "pnpm dlx tailwindcss -i ./public/input.css -o ./public/style.css --minify --watch"
   }
 }

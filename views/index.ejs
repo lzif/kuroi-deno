@@ -1,8 +1,10 @@
 <!doctype html>
 <html lang="en">
-  <%- include("partials/head", { metaInfo: metaInfo }) %>
+  <head>
+    <%- await include("views/partials/head.ejs", { metaInfo:metaInfo }) %>
+  </head>
   <body class="bg-gray-950 text-gray-50">
-    <%- include("partials/navbar") %>
+    <%- await include("views/partials/navbar.ejs") %>
     <main class="card flex justify-center w-full p-2">
       <div
         class="bg-gray-900 text-gray-100 border-2 border-gray-700 rounded-2xl p-2 w-full max-w-lg"

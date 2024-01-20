@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Spaceflight News Reports</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script
+      src="https://unpkg.com/htmx.org"
+      type="dfc0b448c610ce2c0ec03a28-text/javascript"
+    ></script>
+    <script
+      src="https://unpkg.com/htmx.org/dist/ext/client-side-templates.js"
+      type="dfc0b448c610ce2c0ec03a28-text/javascript"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/nunjucks@3.2.4/browser/nunjucks.min.js"
+      type="dfc0b448c610ce2c0ec03a28-text/javascript"
+    ></script>
+    <script type="dfc0b448c610ce2c0ec03a28-text/javascript">
+      // CORS workaround
+      document.addEventListener("htmx:configRequest", (evt) => {
+          evt.detail.headers = [];
+      });
+
+      // Set the value of the 'search-input' element to the 'search' parameter from the URL if it exists
+      htmx.onLoad(function () {
+          const urlParams = new URLSearchParams(window.location.search);
+          const query = urlParams.get("search");
+          if (query) {
+              document.getElementById("search-input").value = query;
+          }
+      });
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.css"
+    />
+  </head>
+  <body>
+    <h1>
+      Spaceflight News Reports
+      <span class="htmx-indicator">
+        <img src="img/block.svg" />
+      </span>
+    </h1>
+    <p>
+      Check out how <b>pagination</b> works on htmx with JSON data APIs. You can
+      find the source code on
+      <a
+        href="https://github.com/ngshiheng/spaceflight-news/blob/main/reports.html"
+        >GitHub</a
+      >. Enjoy!
+    </p>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/articles.html">Articles</a></li>
+      <li><a href="/blogs.html">Blogs</a></li>
+      <li>
+        <a href="/reports.html"><u>Reports</u></a>
+      </li>
+    </ul>
+    <div hx-ext="client-side-templates">
+      <input
+        autofocus
+        id="search-input"
+        hx-get="https://api.spaceflightnewsapi.net/v4/reports/"
+        hx-indicator=".htmx-indicator"
+        hx-target="#result"
+        hx-trigger="load delay:100ms, keyup changed delay:500ms, search"
+        hx-on::after-request="const url = new URL(location); url.searchParams.set('search', this.value); history.pushState({}, '', url);"
+        name="search"
+        nunjucks-template="reports-template"
+        placeholder="Search reports..."
+        type="search"
+      />
+      <template id="reports-template">
+        <i> Found {{ count }} articles.</i>
+
+        {% if previous %}
+        <a
+          href
+          hx-get="{{ previous }}"
+          hx-target="#result"
+          nunjucks-template="reports-template"
+        >
+          &laquo; Previous
+        </a>
+        | {% endif %} {% if next %}
+        <a
+          href
+          hx-get="{{ next }}"
+          hx-target="#result"
+          nunjucks-template="reports-template"
+        >
+          Next &raquo;
+        </a>
+        {% endif %} {% for report in results %}
+        <div>
+          <hr />
+          <h2>
+            <a href="{{ report.url }}">{{ report.title }}</a>
+          </h2>
+          <h4>
+            Published by {{ report.news_site }}, {{ report.published_at |
+            truncate(10, true, "")}}
+          </h4>
+          <p>{{ report.summary }}</p>
+        </div>
+        {% endfor %} {% if previous %}
+        <a
+          href
+          hx-get="{{ previous }}"
+          hx-target="#result"
+          nunjucks-template="reports-template"
+        >
+          &laquo; Previous
+        </a>
+        | {% endif %} {% if next %}
+        <a
+          href
+          hx-get="{{ next }}"
+          hx-target="#result"
+          nunjucks-template="reports-template"
+        >
+          Next &raquo;
+        </a>
+        {% endif %}
+      </template>
+      <div id="result"></div>
+    </div>
+    <footer>
+      <hr />
+      <p>Created by <a href="https://jerrynsh.com">Jerry Ng</a>.</p>
+    </footer>
+    <script
+      src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
+      data-cf-settings="dfc0b448c610ce2c0ec03a28-|49"
+      defer
+    ></script>
+    <script
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js/v84a3a4012de94ce1a686ba8c167c359c1696973893317"
+      integrity="sha512-euoFGowhlaLqXsPWQ48qSkBSCFs3DPRyiwVu3FjR96cMPx+Fr+gpWRhIafcHwqwCqWS42RZhIudOvEI+Ckf6MA=="
+      data-cf-beacon='{"rayId":"847f8db67c67410b","version":"2024.1.0","r":1,"token":"5a4ca3f446564494b5a53e80ad018eff","b":1}'
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
