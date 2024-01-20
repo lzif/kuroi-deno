@@ -49,4 +49,5 @@ app.use(
   }),
 );
 
-Deno.serve(app.fetch);
+export default app
+//Deno.serve(app.fetch);
