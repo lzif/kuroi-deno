@@ -1,8 +1,14 @@
 import { Hono } from "hono";
 import { Child, logger, serveStatic } from "hono/middleware";
+import { extract, install } from "twind";
+import presetTailwind from "twind/preset";
 import basic from "./routes/basic.tsx";
 import animeRoute from "./routes/anime.tsx";
 import App from "./components/app.tsx";
+
+install({
+  presets: [presetTailwind(), {}],
+});
 
 declare module "hono" {
   interface ContextRenderer {
@@ -33,11 +39,21 @@ app.use("*", async (c, next) => {
       },
       script = "console.log('test')",
     ) => {
-      return c.html(
+      const htmlJsx = (
         <App metaInfo={head} script={script}>
           {content}
-        </App>,
+        </App>
       );
+      const body = "<!DOCTYPE html>" + htmlJsx.toString();
+      const { html, css } = extract(body);
+      const hxBoost = c.req.header("hx-boosted");
+      const styleTag = `<style data-twind>${css}</style>`;
+
+      if (hxBoost) {
+        return c.html(html.replace("</body>", `${styleTag}</body>`));
+      }
+
+      return c.html(html.replace("</head>", `${styleTag}</head>`));
     },
   );
   await next();

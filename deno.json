@@ -4,6 +4,8 @@
     "hono/middleware": "https://deno.land/x/hono@v3.12.5/middleware.ts",
     "hono/helper": "https://deno.land/x/hono@v3.12.5/helper.ts",
     "hono/jsx/jsx-runtime": "https://deno.land/x/hono@v3.12.5/jsx/jsx-runtime.ts",
+    "twind": "https://esm.sh/@twind/core@1.1.3",
+    "twind/preset": "https://esm.sh/@twind/preset-tailwind@1.1.4",
     "cheerio": "https://esm.sh/cheerio@1.0.0-rc.12"
   },
   "compilerOptions": {

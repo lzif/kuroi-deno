@@ -75,4 +75,4 @@ export default async function getEpisodeData(slug: string): Promise<Episode> {
   return { info, streamUrl, downloadUrl };
 }
 
-getEpisodeData("2024-01-undead-unluck-episode-15")
+//getEpisodeData("2024-01-undead-unluck-episode-15")
