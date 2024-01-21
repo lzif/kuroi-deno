@@ -1,9 +1,6 @@
 import { Hono } from "hono";
 import { getNewEps } from "../services/anime-news.ts";
-import {
-  renderToReadableStream,
-  Suspense,
-} from "https://deno.land/x/hono@v3.12.5/jsx/streaming.ts";
+
 const basic = new Hono({ strict: false });
 
 async function B() {
@@ -48,16 +45,3 @@ basic
   });
 
 export default basic;
-
-`<ul class="grid grid-cols-2 gap-2">                                              <% newEps.forEach(function(item) { %>                                          <li                                                                              hx-boost="true"                                                                class="flex flex-col border rounded-xl bg-slate-900 border-gray-700 shadow-slate-700/[.7]"                                                                  >                                                                                <img                                                                             class="w-full aspect-video rounded-t-xl"                                       src="<%= item.img %>"                                                          alt="<%= item.title %>"                                                      />                                                                             <div class="p-4 md:p-5">                                                         <h3                                                                              class="text-lg font-bold text-white w-full truncate text-ellipsis overflow-hidden"                                                                          >                                                                                <%= item.title %>                                                            </h3>                                                                          <!-- p class="mt-1 text-gray-400">                                     Some quick example text to build on the card title and make up the bulk of the card's content.
-    </p -->
-              <a
-                class="mt-2 py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-1 focus:ring-gray-600"
-                href="<%= item.url %>"
-              >
-                Tonton
-              </a>
-            </div>
-          </li>
-          <% }); %>
-        </ul>`;

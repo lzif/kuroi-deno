@@ -1,0 +1,19 @@
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const streamUrl = JSON.stringify(animeEps.streamUrl);
+    const videoPlayerContainer = document.getElementById(
+      "videoPlayerContainer",
+    );
+    streamUrl.forEach((item) => {
+      const button = document.createElement("button");
+      button.textContent = item.res;
+      button.addEventListener("click", function () {
+        showVideo(item.url);
+      });
+      videoPlayerContainer.appendChild(button);
+    });
+    function showVideo(url) {
+      videoPlayerContainer.innerHTML = `<iframe title="videoPlayer" src="{url}" width="640" height="360"></iframe>`;
+    }
+  });
+</script>

@@ -2,7 +2,8 @@
   "imports": {
     "hono": "https://deno.land/x/hono@v3.12.5/mod.ts",
     "hono/middleware": "https://deno.land/x/hono@v3.12.5/middleware.ts",
-    "hono/jsx/jsx-runtime": "https://deno.land/x/hono@v3.8.0/jsx/jsx-runtime.ts",
+    "hono/helper": "https://deno.land/x/hono@v3.12.5/helper.ts",
+    "hono/jsx/jsx-runtime": "https://deno.land/x/hono@v3.12.5/jsx/jsx-runtime.ts",
     "cheerio": "https://esm.sh/cheerio@1.0.0-rc.12"
   },
   "compilerOptions": {
@@ -11,7 +12,7 @@
   },
   "tasks": {
     "dev": "deno task dev:server & deno task dev:css",
-    "dev:server": "deno run --allow-read --allow-write --allow-net --allow-env --watch main.tsx",
+    "dev:server": "deno run --allow-read --allow-write --allow-net --allow-env --watch main.ts",
     "dev:css": "pnpm dlx tailwindcss -i ./public/input.css -o ./public/style.css --minify --watch"
   }
 }

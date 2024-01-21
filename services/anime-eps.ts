@@ -1,6 +1,5 @@
-import axios from "axios";
 import * as cheerio from "cheerio";
-import { getRealSlug } from "./getSlug";
+import { getRealSlug } from "./getSlug.ts";
 
 export type StreamUrls = { res: string; url: string | undefined };
 export type DownloadUrls = { provider: string; urls: StreamUrls[] };
@@ -21,8 +20,8 @@ async function getEpisodeStream($: cheerio.CheerioAPI): Promise<StreamUrls[]> {
     YUpUrl = url;
   });
 
-  const resData = await axios.get(`https://anoboy.show${YUpUrl}`);
-  const yup = resData.data;
+  const resData = await fetch(`https://anoboy.show${YUpUrl}`);
+  const yup = await resData.text()
   const yupHtml = cheerio.load(yup);
 
   const realUrls: StreamUrls[] = [];
@@ -64,13 +63,16 @@ async function getEpisodeInfo($: cheerio.CheerioAPI): Promise<Info> {
 
 export default async function getEpisodeData(slug: string): Promise<Episode> {
   const realSlug = getRealSlug(slug);
-  const res = await axios.get(`https://anoboy.show/${realSlug}/`);
-  const html = res.data;
+  const res = await fetch(`https://anoboy.show/${realSlug}/`);
+  const html = await res.text()
   const $: cheerio.CheerioAPI = cheerio.load(html);
   const [streamUrl, downloadUrl, info] = await Promise.all([
     getEpisodeStream($),
     getEpisodeDownload($),
     getEpisodeInfo($),
   ]);
+  console.log({ info, streamUrl, downloadUrl })
   return { info, streamUrl, downloadUrl };
 }
+
+getEpisodeData("2024-01-undead-unluck-episode-15")

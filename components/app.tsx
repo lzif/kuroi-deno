@@ -1,11 +1,18 @@
 import { Child, jsx } from "hono/middleware";
-
+import { html, raw } from "hono/helper";
 const App = ({
   children,
   metaInfo,
+  script,
 }: {
   children: Child;
-  metaInfo: { title: string; url: string; description: string; image: string };
+  metaInfo: {
+    title: string;
+    url: string;
+    description: string;
+    image: string;
+  };
+  script: string;
 }) => {
   return (
     <html>
@@ -25,6 +32,7 @@ const App = ({
         <meta property="twitter:title" content={metaInfo.title} />
         <meta property="twitter:description" content={metaInfo.description} />
         <meta property="twitter:image" content={metaInfo.image} />
+        <meta name="google-site-verification" content="Lssel9_Z2vke-k4LQdm-ZcxyYMz7lE6PAbvYL1pLVDY" />
         <link rel="stylesheet" href="/style.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -33,12 +41,25 @@ const App = ({
           rel="stylesheet"
         />
         <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+        {script &&
+          html`
+            <script>
+              document.addEventListener("DOMContentLoaded", function () {
+                ${raw(script)};
+              });
+            </script>
+          `}
       </head>
       <body
         class="bg-gray-950 text-gray-50"
         style="font-family: 'Poppins', sans-serif;"
+        hx-indicator=".htmx-indicator"
+        hx-boost="true"
+        hx-target="#main"
+        hx-select="#main"
+        hx-swap="outerHTML"
       >
-        <div class="w-full bg-sky-600 p-2 wb-2" hx-boost>
+        <div class="w-full bg-sky-600 p-2 wb-2">
           <header class="w-full wb-2 text-2xl font-bold text-center">
             <a href="/">Kuroi</a>
           </header>
@@ -47,7 +68,8 @@ const App = ({
             <a href="/manga">Manga</a>
           </nav>
         </div>
-        {children}
+        <span class="htmx-indicator">Loading ...</span>
+        <div id="main">{children}</div>
         <script src="//cdn.jsdelivr.net/npm/eruda"></script>
         <script>eruda.init();</script>
       </body>
