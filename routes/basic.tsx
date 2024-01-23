@@ -23,6 +23,7 @@ basic
                     src={anime.img}
                     alt={anime.title}
                     onerror="this.onerror=null; this.src='https://bit.ly/3tOfgIs'"
+                    loading="lazy"
                   />
                   <h1 class="font-bold text-white w-full truncate text-ellipsis overflow-hidden p-2">
                     {anime.title}

@@ -50,7 +50,7 @@ app.use("*", async (c, next) => {
       const styleTag = `<style data-twind>${css}</style>`;
 
       if (hxBoost) {
-        return c.html(html.replace("</body>", `${styleTag}</body>`));
+        return c.html(html.replace("</main>", `${styleTag}</main>`));
       }
 
       return c.html(html.replace("</head>", `${styleTag}</head>`));

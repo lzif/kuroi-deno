@@ -13,8 +13,6 @@
     "jsxImportSource": "hono/jsx"
   },
   "tasks": {
-    "dev": "deno task dev:server & deno task dev:css",
-    "dev:server": "deno run --allow-read --allow-write --allow-net --allow-env --watch main.ts",
-    "dev:css": "pnpm dlx tailwindcss -i ./public/input.css -o ./public/style.css --minify --watch"
+    "dev": "deno run --allow-read --allow-write --allow-net --allow-env --watch main.ts"
   }
 }
